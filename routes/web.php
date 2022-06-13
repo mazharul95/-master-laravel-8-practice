@@ -28,7 +28,7 @@ Route::get('/', function () {
     return view('home.index');
 })->name('home.index');
     
-Route::get('/contact', function() {
+Route::get('/', function() {
     return view('home.contact');
 })->name('home.contact');
 
@@ -59,7 +59,21 @@ Route::get('/recent-posts/{days_ago?}', function($daysAgo = 20){
 
     //Constraining Possible Route Parameters Values
 Route::get('/posts/{id}', function($id) {
-    return 'Blog post ' . $id; 
+    $posts = [
+        1 => [
+            'title' => 'intro to laravel',
+            'content' => 'this is a short intro to laravel',
+        ],
+
+        2 => [
+            'title' => 'intro to PHP',
+            'content' => 'this is a short intro to php',
+        ]
+    ];
+
+    abort_if(!isset($posts[$id]), 404);
+
+    return view('posts.show', ['post' => $posts[$id]]); 
 })
     // ->where([
     // 'id' => '[0-9]+'
