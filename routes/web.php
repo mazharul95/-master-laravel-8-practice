@@ -43,7 +43,7 @@ Route::get('/posts/2', function(){
 });
 
 Route::get('/posts/3', function(){
-    return 'Blog post 3';
+    return 'Blog post 3'; 
 });
 */
 
@@ -70,15 +70,18 @@ Route::get('/posts/{id}', function($id) {
         1 => [
             'title' => 'intro to laravel',
             'content' => 'this is a short intro to laravel',
+            'is_new' => true
         ],
 
         2 => [
             'title' => 'intro to PHP',
             'content' => 'this is a short intro to php',
+            'is_new' => false
         ],
         3 => [
             'title' => 'intro to python',
             'content' => 'this is a short intro to python',
+            'is_new' => true
         ]
     ];
 
