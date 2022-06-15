@@ -23,14 +23,14 @@ Route::get('/contact', function() {
     return 'Contact';
 });
 */
-    //  Naming Route 
-Route::get('/', function () {
-    return view('home.index');
-})->name('home.index');
+//     //  Naming Route 
+// Route::get('/', function () {
+//     return view('home.index');
+// })->name('home.index');
     
-Route::get('/', function() {
-    return view('home.contact');
-})->name('home.contact');
+// Route::get('/', function() {
+//     return view('home.contact');
+// })->name('home.contact');
 
 // Route Parameters
 /*
@@ -57,6 +57,13 @@ Route::get('/recent-posts/{days_ago?}', function($daysAgo = 20){
     return 'Posts from ' . $daysAgo . ' days ago';
 })->name('posts.recent.index');
 
+    //Simple View Rendering Routes
+Route::view('/','home.index')
+    ->name('home.index');
+
+Route::view('/contact','home.contact')
+    ->name('home.contact');
+
     //Constraining Possible Route Parameters Values
 Route::get('/posts/{id}', function($id) {
     $posts = [
@@ -68,6 +75,10 @@ Route::get('/posts/{id}', function($id) {
         2 => [
             'title' => 'intro to PHP',
             'content' => 'this is a short intro to php',
+        ],
+        3 => [
+            'title' => 'intro to python',
+            'content' => 'this is a short intro to python',
         ]
     ];
 
@@ -79,4 +90,7 @@ Route::get('/posts/{id}', function($id) {
     // 'id' => '[0-9]+'
     // ])
     ->name('posts.show');
+
+
+    //-- 003 Passing and Rendering Data in Templates
 
