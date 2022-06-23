@@ -70,7 +70,8 @@ Route::get('/posts/{id}', function($id) {
         1 => [
             'title' => 'intro to laravel',
             'content' => 'this is a short intro to laravel',
-            'is_new' => true
+            'is_new' => true,
+            'has_comments' => true 
         ],
 
         2 => [
