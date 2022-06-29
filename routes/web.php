@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,9 @@ $posts = [
 ];
 
 Route::get('/posts', function () use ($posts) {
+  //dd(request()->all());
+  //dd((int)request()->input('page', 1));
+  dd((int)request()->query('page', 1));
   // compact($posts) === ['posts' => $posts])
   return view('posts.index', ['posts' => $posts]);
 });
@@ -97,5 +101,6 @@ Route::prefix('/fun')->name('fun.')->group(function() use($posts){
     return response()->download(public_path('/pin.png'), 'face.jpg');
   })->name('download');
 });
+
 
 
