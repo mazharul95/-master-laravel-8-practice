@@ -15,7 +15,7 @@
         @error('content')
             <div>{{ $message }}</div>
         @enderror
-        
+
         {{-- @if ($errors->any())
 
             <div>
