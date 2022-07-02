@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
-use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
@@ -40,16 +39,28 @@ class PostsController extends Controller
 
     public function edit($id)
     {
-        return view('posts.edit', ['post' => BlogPost::findOrfail($id)]); 
+        return view('posts.edit', ['post' => BlogPost::findOrfail($id)]);
     }
 
-    public function update(Request $request, $id)
+    public function update(StorePost $request, $id)
     {
-        //
+        $post = BlogPost::findOrFail($id);
+        $validated = $request->validated();
+        $post->fill($validated);
+        $post->save();
+
+        $request->session()->flash('status', 'the blog post was Updated!');
+
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
     public function destroy($id)
     {
-        //
+        $post = BlogPost::findOrFail($id);
+        $post->delete();
+
+        session()->flash('status', 'the blog post was deleted! ');
+
+        return redirect()->route('posts.index');
     }
 }
