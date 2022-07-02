@@ -40,7 +40,7 @@ class PostsController extends Controller
 
     public function edit($id)
     {
-        //
+        return view('posts.edit', ['post' => BlogPost::findOrfail($id)]); 
     }
 
     public function update(Request $request, $id)
