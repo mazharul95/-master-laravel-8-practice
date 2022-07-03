@@ -1,4 +1,5 @@
-<div><input type="text" name="title" value="{{ old('title', optional($post ?? null)->title) }}"></div>
+<div  >
+     <input type="text" name="title" value="{{ old('title', optional($post ?? null)->title) }}"></div>
 @error('title')
     <div>{{ $message }}</div>
 @enderror
