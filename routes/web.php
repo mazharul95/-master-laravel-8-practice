@@ -15,14 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
-    return view('home.index', []);
-})->name('home.index');
-
-// Route::get('/contact', function () {
-//   return view('home.contact');
-// })->name('home.contact');
-
 Route::get('/', [HomeController::class, 'home'])->name('home.index');
 
 Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
