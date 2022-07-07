@@ -5,12 +5,29 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 
+//use Illuminate\Support\Facades\DB;
+
 class PostsController extends Controller
 {
 
     public function index()
     {
-        return view('posts.index', ['posts' => BlogPost::all()]);
+        // DB::connection()->enableQueryLog();
+
+        // $posts = BlogPost::with('comments')->get();
+
+        // foreach ($posts as $post) {
+        //     foreach ($post->comments as $comment) {
+        //         echo $comment->content;
+        //     }
+        // }
+
+        // dd(DB::getQueryLog());
+
+        //comments_count
+        return view('posts.index',
+            ['posts' => BlogPost::withCount('comments')->get()]
+        );
         //query builder
         //return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->take(5)->get()]);
     }
