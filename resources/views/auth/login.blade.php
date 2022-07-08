@@ -3,20 +3,8 @@
 @section('title', 'Register Page')
 
 @section('content')
-    <form action="{{ route('register') }}" method="POST">
+    <form action="{{ route('login') }}" method="POST">
         @csrf
-
-        <div class="form-group">
-            <label>Name</label>
-            <input name="name" value="{{ old('name') }}" required
-                class="form-control{{ $errors->has('name') ? 'is-invalid' : '' }}">
-
-            @if ($errors->has('name'))
-                <span class="invalid-feedback">
-                    <strong>{{ $errors->first('name') }}</strong>
-                </span>
-            @endif
-        </div>
 
         <div class="form-group">
             <label>E-mail</label>
@@ -43,11 +31,16 @@
         </div>
 
         <div class="form-group">
-            <label>Retyped Password</label>
-            <input name="password_confirmation" required class="form-control" type="password">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="remember"
+                    value="{{ old('remember') ? 'checked' : '' }}">
+
+                <label class="form-check-label">
+                    Remember Me
+                </label>
+            </div>
         </div>
 
-
-        <button type="submit" class="btn btn-primary btn-block">Register!</button>
+        <button type="submit" class="btn btn-primary btn-block">Login!</button>
     </form>
 @endsection
