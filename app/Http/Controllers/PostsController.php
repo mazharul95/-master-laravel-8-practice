@@ -51,7 +51,8 @@ class PostsController extends Controller
     {
         //abort_if(!isset($this->posts[$id]), 404);
 
-        return view('posts.show', ['post' => BlogPost::FindOrFail($id)]);
+        return view('posts.show', [
+            'post' => BlogPost::with('comments')->FindOrFail($id)]);
     }
 
     public function edit($id)

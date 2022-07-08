@@ -40,7 +40,7 @@ $posts = [
 
     ],
 ];
-
+ 
 Route::resource('/posts', PostsController::class);
 //->only(['index', 'show', 'create', 'store', 'edit', 'update','destroy']);
 
