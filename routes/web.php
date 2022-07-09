@@ -16,12 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', [HomeController::class, 'home'])->name('home.index');
-
+Route::get('/', [HomeController::class, 'home'])
+    ->name('home.index')
+// ->middleware('auth')
+;
 Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
-
-//Route::post('/register', [HomeController::class, 'register'])->name('register');
-
 Route::get('/single', AboutController::class);
 
 Auth::routes();
