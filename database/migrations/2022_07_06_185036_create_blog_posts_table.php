@@ -20,7 +20,7 @@ class CreateBlogPostsTable extends Migration
             $table->string('title')->default('');
             $table->text('content')->default('');
 
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->index();
 
             $table->foreign('user_id')->references('id')->on('users');
         });

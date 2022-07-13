@@ -19,4 +19,13 @@ class BlogPost extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function (BlogPost $blogPost) {
+            $blogPost->comments()->delete();
+        });
+    }
 }
