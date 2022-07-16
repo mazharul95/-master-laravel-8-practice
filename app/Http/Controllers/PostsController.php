@@ -63,7 +63,6 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = BlogPost::FindOrFail($id);
-
         // if (Gate::define('update-post', $post)) {
         //     abort(403, "You can't edit this blog post!");
         // }
@@ -75,7 +74,7 @@ class PostsController extends Controller
     public function update(StorePost $request, $id)
     {
         $post = BlogPost::findOrFail($id);
-
+        
         // if (Gate::define('update-post', $post)) {
         //     abort(403, "You can't edit this blog post!");
         // }
