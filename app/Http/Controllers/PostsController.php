@@ -62,12 +62,25 @@ class PostsController extends Controller
 
     public function edit($id)
     {
+        $post = BlogPost::FindOrFail($id);
+
+        // if (Gate::define('update-post', $post)) {
+        //     abort(403, "You can't edit this blog post!");
+        // }
+        $this->authorize('update-post', $post);
+
         return view('posts.edit', ['post' => BlogPost::findOrfail($id)]);
     }
 
     public function update(StorePost $request, $id)
     {
         $post = BlogPost::findOrFail($id);
+
+        // if (Gate::define('update-post', $post)) {
+        //     abort(403, "You can't edit this blog post!");
+        // }
+        $this->authorize('update-post', $post);
+
         $validated = $request->validated();
         $post->fill($validated);
         $post->save();
@@ -80,6 +93,12 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = BlogPost::findOrFail($id);
+
+        // if (Gate::define('delete-post', $post)) {
+        //     abort(403, "You can't delete this blog post!");
+        // }
+        $this->authorize('delete-post', $post);
+
         $post->delete();
 
         session()->flash('status', 'the blog post was deleted! ');
