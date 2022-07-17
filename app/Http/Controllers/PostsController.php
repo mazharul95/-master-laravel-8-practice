@@ -5,8 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 
-//use Illuminate\Support\Facades\DB;
-
+// [
+//     'show' => 'view',
+//     'create' => 'create',
+//     'store' => 'create',
+//     'edit' => 'update',
+//     'update' => 'update',
+//     'destroy' => 'delete',
+// ]
 class PostsController extends Controller
 {
     public function __construct()
@@ -17,19 +23,6 @@ class PostsController extends Controller
 
     public function index()
     {
-        // DB::connection()->enableQueryLog();
-
-        // $posts = BlogPost::with('comments')->get();
-
-        // foreach ($posts as $post) {
-        //     foreach ($post->comments as $comment) {
-        //         echo $comment->content;
-        //     }
-        // }
-
-        // dd(DB::getQueryLog());
-
-        //comments_count
         return view('posts.index',
             ['posts' => BlogPost::withCount('comments')->get()]
         );
@@ -39,7 +32,7 @@ class PostsController extends Controller
 
     public function create()
     {
-        $this->authorize('posts.create');
+        //$this->authorize('posts.create');
 
         return view('posts.create');
     }
@@ -65,10 +58,8 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = BlogPost::FindOrFail($id);
-        // if (Gate::define('update-post', $post)) {
-        //     abort(403, "You can't edit this blog post!");
-        // }
-        $this->authorize('posts.update', $post);
+
+        $this->authorize($post);
 
         return view('posts.edit', ['post' => BlogPost::findOrfail($id)]);
     }
@@ -76,11 +67,7 @@ class PostsController extends Controller
     public function update(StorePost $request, $id)
     {
         $post = BlogPost::findOrFail($id);
-
-        // if (Gate::define('update-post', $post)) {
-        //     abort(403, "You can't edit this blog post!");
-        // }
-        $this->authorize('posts.update', $post);
+        $this->authorize($post);
 
         $validated = $request->validated();
         $post->fill($validated);
@@ -94,11 +81,10 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = BlogPost::findOrFail($id);
-
-        // if (Gate::define('delete-post', $post)) {
+        // if (Gate::denies('delete-post', $post)) {
         //     abort(403, "You can't delete this blog post!");
         // }
-        $this->authorize('posts.delete', $post);
+        $this->authorize($post);
 
         $post->delete();
 

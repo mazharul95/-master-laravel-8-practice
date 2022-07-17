@@ -52,6 +52,9 @@ class BlogPostPolicy
      */
     public function update(User $user, BlogPost $blogPost)
     {
+        if ($user->is_admin == 1) {
+            return true;
+        }
         return $user->id == $blogPost->user_id;
     }
     /**
@@ -63,6 +66,9 @@ class BlogPostPolicy
      */
     public function delete(User $user, BlogPost $blogPost)
     {
+        if ($user->is_admin == 1) {
+            return true;
+        }
         return $user->id == $blogPost->user_id;
     }
     /**
