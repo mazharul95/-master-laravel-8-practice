@@ -8,6 +8,6 @@
     @forelse ($posts as $key => $post)
         @include('posts.partials.post', [])
     @empty
-        No Posts Found!
+        <p>No Posts Found!</p>
     @endforelse
 @endsection

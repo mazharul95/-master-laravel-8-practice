@@ -15,14 +15,22 @@
 @endif
 
 <div class="mb-3">
-    <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit</a>
+    @can('update', $post)
+        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">
+            Edit
+        </a>
+    @endcan
 
-    <form class="d-inline" action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="POST">
+    {{-- @cannot('delete', $post)
+        <p>You can't delete this post</p>
+    @endcannot --}}
 
-        @csrf
-        @method('DELETE')
-        <input type="submit" value="Delete!" class="btn btn-info">
-    </form>
+    @can('delete', $post)
+        <form method="POST" class="d-inline" action="{{ route('posts.destroy', ['post' => $post->id]) }}">
+            @csrf
+            @method('DELETE')
+            <input type="submit" value="Delete!" class="btn btn-info">
+        </form>
+    @endcan
 </div>
-
 </p>
