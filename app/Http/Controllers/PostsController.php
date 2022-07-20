@@ -39,8 +39,9 @@ class PostsController extends Controller
 
     public function store(StorePost $request)
     {
-        $validated = $request->validated();
-        $post = BlogPost::create($validated);
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = $request->user()->id;
+        $post = BlogPost::create($validatedData);
 
         $request->session()->flash('status', 'the blog post was created');
 
@@ -58,7 +59,6 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = BlogPost::FindOrFail($id);
-
         $this->authorize($post);
 
         return view('posts.edit', ['post' => BlogPost::findOrfail($id)]);
@@ -69,8 +69,8 @@ class PostsController extends Controller
         $post = BlogPost::findOrFail($id);
         $this->authorize($post);
 
-        $validated = $request->validated();
-        $post->fill($validated);
+        $validatedData = $request->validated();
+        $post->fill($validatedData);
         $post->save();
 
         $request->session()->flash('status', 'the blog post was Updated!');
