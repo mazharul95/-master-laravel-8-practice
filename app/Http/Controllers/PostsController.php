@@ -23,11 +23,35 @@ class PostsController extends Controller
 
     public function index()
     {
+        // $posts = [
+        //     1 => [
+        //         'title' => 'Intro to Laravel',
+        //         'content' => 'This is a short intro to Laravel',
+        //         'is_new' => true,
+        //         'has_comments' => true,
+        //     ],
+        //     2 => [
+        //         'title' => 'Intro to PHP',
+        //         'content' => 'This is a short intro to PHP',
+        //         'is_new' => false,
+        //     ],
+        //     3 => [
+        //         'title' => 'Intro to Golang',
+        //         'content' => 'This is a short intro to Go',
+        //         'is_new' => false,
+        //     ],
+        // ];
+
         return view('posts.index',
             ['posts' => BlogPost::withCount('comments')->get()]
         );
-        //query builder
-        //return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->take(5)->get()]);
+    }
+    public function show($id)
+    {
+        //abort_if(!isset($this->posts[$id]), 404);
+
+        return view('posts.show', [
+            'post' => BlogPost::with('comments')->FindOrFail($id)]);
     }
 
     public function create()
@@ -48,20 +72,13 @@ class PostsController extends Controller
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
-    public function show($id)
-    {
-        //abort_if(!isset($this->posts[$id]), 404);
-
-        return view('posts.show', [
-            'post' => BlogPost::with('comments')->FindOrFail($id)]);
-    }
-
+   
     public function edit($id)
     {
         $post = BlogPost::FindOrFail($id);
         $this->authorize($post);
 
-        return view('posts.edit', ['post' => BlogPost::findOrfail($id)]);
+        return view('posts.edit', ['post' => $post]);
     }
 
     public function update(StorePost $request, $id)
