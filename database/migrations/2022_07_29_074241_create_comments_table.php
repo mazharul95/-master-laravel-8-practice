@@ -6,20 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCommentsTable extends Migration
 {
-
     public function up()
     {
         Schema::create('comments', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->timestamps();
+            $table->text('content');
 
-            if (env('DB_CONNECTION') === 'mysql') {
-                $table->text('content')->default('');
-            } else {
-                $table->text('content');
-            }
-
-            $table->unsignedInteger('blog_post_id')->index()->nullable();
+            $table->unsignedInteger('blog_post_id')->index()->default('');
             $table->foreign('blog_post_id')->references('id')->on('blog_posts');
         });
     }

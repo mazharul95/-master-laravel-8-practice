@@ -23,27 +23,10 @@ class PostsController extends Controller
 
     public function index()
     {
-        // $posts = [
-        //     1 => [
-        //         'title' => 'Intro to Laravel',
-        //         'content' => 'This is a short intro to Laravel',
-        //         'is_new' => true,
-        //         'has_comments' => true,
-        //     ],
-        //     2 => [
-        //         'title' => 'Intro to PHP',
-        //         'content' => 'This is a short intro to PHP',
-        //         'is_new' => false,
-        //     ],
-        //     3 => [
-        //         'title' => 'Intro to Golang',
-        //         'content' => 'This is a short intro to Go',
-        //         'is_new' => false,
-        //     ],
-        // ];
-
         return view('posts.index',
-            ['posts' => BlogPost::withCount('comments')->get()]
+            [
+                'posts' => BlogPost::withCount('comments')->orderBy('created_at', 'desc')->get(),
+            ]
         );
     }
     public function show($id)
@@ -72,13 +55,12 @@ class PostsController extends Controller
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
-   
     public function edit($id)
     {
         $post = BlogPost::FindOrFail($id);
         $this->authorize($post);
 
-        return view('posts.edit', ['post' => $post]);
+        return view('posts.edit', ['post' => BlogPost::findOrfail($id)]);
     }
 
     public function update(StorePost $request, $id)

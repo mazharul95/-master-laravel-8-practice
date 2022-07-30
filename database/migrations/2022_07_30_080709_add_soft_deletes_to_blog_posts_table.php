@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class AddSoftDeletesToBlogPostsTable extends Migration
 {
-   
     public function up()
     {
         Schema::table('blog_posts', function (Blueprint $table) {

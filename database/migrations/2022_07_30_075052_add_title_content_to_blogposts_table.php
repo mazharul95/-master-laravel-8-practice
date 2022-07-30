@@ -4,18 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTitleContentToBlogPostsTable extends Migration
+class AddTitleContentToBlogpostsTable extends Migration
 {
     public function up()
     {
         Schema::table('blog_posts', function (Blueprint $table) {
-            $table->string('title')->nullable()->default('');
-
-            if (env('DB_CONNECTION') === 'sqlite_testing') {
-                $table->text('content')->nullable()->default('');
-            } else {
-                $table->text('content');
-            }
+            $table->string('title')->default('');
+            $table->text('content');
         });
     }
 

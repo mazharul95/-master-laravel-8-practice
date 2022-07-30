@@ -9,11 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
-    use HasFactory;
+    protected $fillable = ['user_id', 'content'];
 
-    //blog_post_id
     public function blogPost()
     {
         //return $this->belongsTo('App\Models\BlogPost', 'post_id', 'blog_post_id');

@@ -16,8 +16,10 @@ class BlogPostFactory extends Factory
             'user_id' => function () {
                 return User::factory()->create()->id;
             },
+
             'title' => $this->faker->sentence,
-            'content' => $this->faker->paragraph,
+            'content' => $this->faker->paragraphs(5, true),
+            'created_at' => $this->faker->dateTimeBetween('-3 months'),
         ];
     }
 
