@@ -25,7 +25,7 @@ class PostsController extends Controller
     {
         return view('posts.index',
             [
-                'posts' => BlogPost::withCount('comments')->orderBy('created_at', 'desc')->get(),
+                'posts' => BlogPost::latest()->withCount('comments')->get(),
             ]
         );
     }
@@ -34,7 +34,8 @@ class PostsController extends Controller
         //abort_if(!isset($this->posts[$id]), 404);
 
         return view('posts.show', [
-            'post' => BlogPost::with('comments')->FindOrFail($id)]);
+            'post' => BlogPost::with('comments')->FindOrFail($id),
+        ]);
     }
 
     public function create()
@@ -49,10 +50,10 @@ class PostsController extends Controller
         $validatedData = $request->validated();
         $validatedData['user_id'] = $request->user()->id;
         $post = BlogPost::create($validatedData);
-
         $request->session()->flash('status', 'the blog post was created');
 
         return redirect()->route('posts.show', ['post' => $post->id]);
+        //return redirect()->route('posts.show', ['post' => $blogPost->id]);
     }
 
     public function edit($id)
@@ -60,7 +61,7 @@ class PostsController extends Controller
         $post = BlogPost::FindOrFail($id);
         $this->authorize($post);
 
-        return view('posts.edit', ['post' => BlogPost::findOrfail($id)]);
+        return view('posts.edit', ['post' => $post]);
     }
 
     public function update(StorePost $request, $id)
@@ -71,7 +72,6 @@ class PostsController extends Controller
         $validatedData = $request->validated();
         $post->fill($validatedData);
         $post->save();
-
         $request->session()->flash('status', 'the blog post was Updated!');
 
         return redirect()->route('posts.show', ['post' => $post->id]);
@@ -84,9 +84,7 @@ class PostsController extends Controller
         //     abort(403, "You can't delete this blog post!");
         // }
         $this->authorize($post);
-
         $post->delete();
-
         session()->flash('status', 'the blog post was deleted! ');
 
         return redirect()->route('posts.index');
