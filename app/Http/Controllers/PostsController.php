@@ -23,10 +23,11 @@ class PostsController extends Controller
 
     public function index()
     {
-        return view('posts.index',
-            //['posts' => BlogPost::withCount('comments')->get()]
+        return view(
+            'posts.index',
             [
                 'posts' => BlogPost::latest()->withCount('comments')->get(),
+                'mostCommented' => BlogPost::mostCommented()->take(5)->get(),
             ]
         );
     }
@@ -42,9 +43,11 @@ class PostsController extends Controller
         //     }])->findOrFail($id),
         // ]);
 
-        return view('posts.show', [
-            'post' => BlogPost::with('comments')->FindOrFail($id),
-        ]);
+        return view('posts.show',
+            [
+                'post' => BlogPost::with('comments')->FindOrFail($id),
+            ]
+        );
     }
 
     public function create()
