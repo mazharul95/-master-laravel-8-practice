@@ -1,6 +1,14 @@
 <p>
+
 <h3>
+    @if ($post->trashed())
+        <del>
+    @endif
     <a class="text-muted" href="{{ route('posts.show', ['post' => $post->id]) }}"> {{ $post->title }} </a>
+    @if ($post->trashed())
+        </del>
+    @endif
+
 </h3>
 
 <p class="text-muted">
