@@ -7,10 +7,13 @@
     <p>{{ $post->content }}</p>
     <p>Added {{ $post->created_at->diffForHumans() }}</p>
 
-    @if ((new Carbon\Carbon())->diffInMinutes($post->created_at) < 20)
-        @component('badge', ['type' => 'danger'])
-            Recent New Post!
-        @endcomponent
+    @if ((new Carbon\Carbon())->diffInMinutes($post->created_at) < 60)
+        {{-- @component('components.badge', ['type' => 'primary'])
+            New!
+        @endcomponent --}}
+        @badge
+            A New comment few min ago.
+        @endbadge
     @endif
 
     <h4>Comments</h4>
