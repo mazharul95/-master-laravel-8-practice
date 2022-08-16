@@ -3,19 +3,15 @@
 @section('title', $post->title)
 
 @section('content')
-    <h1>{{ $post->title }}</h1>
+    <h1>
+        {{ $post->title }}
+        @badge(['show' => now()->diffInMinutes($post->created_at) < 240])
+            Brand New Post!
+        @endbadge
+    </h1>
+
     <p>{{ $post->content }}</p>
     <p>Added {{ $post->created_at->diffForHumans() }}</p>
-
-    @if ((new Carbon\Carbon())->diffInMinutes($post->created_at) < 60)
-        {{-- @component('components.badge', ['type' => 'primary'])
-            New!
-        @endcomponent --}}
-        @badge
-            A New comment few min ago.
-        @endbadge
-    @endif
-
     <h4>Comments</h4>
 
     @forelse ($post->comments as $comment)

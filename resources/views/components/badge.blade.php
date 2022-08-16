@@ -1,3 +1,5 @@
-<div class="badge alert-{{ $type ?? 'primary' }}">
-    {{ $slot }}
-</div>
+@if (!isset($show) || $show)
+    <span class="badge alert-{{ $type ?? 'success' }}">
+        {{ $slot }}
+    </span>
+@endif
