@@ -23,7 +23,7 @@
 @auth
     @can('update', $post)
         <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">
-            {{ __('Edit') }}
+            Edit
         </a>
     @endcan
 @endauth

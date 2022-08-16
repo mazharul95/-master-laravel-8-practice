@@ -9,7 +9,7 @@
             @forelse ($posts as $key => $post)
                 @include('posts.partials.post', [])
             @empty
-                <p>No blog Posts Found!</p>
+                <p>No blog Posts yet!</p>
             @endforelse
         </div>
         <div class="col-4">
