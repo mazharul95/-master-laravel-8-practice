@@ -11,16 +11,22 @@
     </h1>
 
     <p>{{ $post->content }}</p>
-    <p>Added {{ $post->created_at->diffForHumans() }}</p>
+    @updated(['date' => $post->created_at, 'name' => $post->user->name])
+    @endupdated
+
+    @updated(['date' => $post->created_at])
+        Updated
+    @endupdated
+
     <h4>Comments</h4>
 
     @forelse ($post->comments as $comment)
         <p>
             {{ $comment->content }},
         </p>
-        <p class="text-muted">
-            added {{ $comment->created_at->diffForHumans() }}
-        </p>
+
+        @updated(['date' => $comment->created_at])
+        @endupdated
     @empty
         <P>No comments yet!</P>
     @endforelse

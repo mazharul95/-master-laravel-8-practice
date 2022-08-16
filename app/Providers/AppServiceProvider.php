@@ -22,5 +22,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Blade::aliasComponent('components.badge', 'badge');
+        Blade::aliasComponent('components.updated', 'updated');
     }
 }
