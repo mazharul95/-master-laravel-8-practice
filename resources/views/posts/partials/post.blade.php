@@ -39,10 +39,9 @@
                 @csrf
                 @method('DELETE')
 
-                <input type="submit" value="{{ __('Delete!') }}" class="btn btn-primary" />
+                <input type="submit" value="Delete!" class="btn btn-primary" />
             </form>
         @endcan
     @endif
 @endauth
-
 </p>
