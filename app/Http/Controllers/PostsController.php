@@ -40,34 +40,28 @@ class PostsController extends Controller
             'posts.index',
             [
                 'posts' => BlogPost::latest()->withCount('comments')->with('user')->get(),
-                // 'mostCommented' => BlogPost::mostCommented()->take(5)->get(),
-                // 'mostActive' => User::withMostBlogPosts()->take(5)->get(),
-                // 'mostActiveLastMonth' => User::withMostBlogPostsLastMonth()->take(5)->get(),
-
                 'mostCommented' => $mostCommented,
                 'mostActive' => $mostActive,
                 'mostActiveLastMonth' => $mostActiveLastMonth,
-
             ]
         );
     }
     public function show($id)
     {
-        //abort_if(!isset($this->posts[$id]), 404);
-
         //comment Sorted by assending date wize
-
         // return view('posts.show', [
         //     'post' => BlogPost::with(['comments' => function ($query) {
         //         return $query->latest();
         //     }])->findOrFail($id),
         // ]);
 
-        return view('posts.show',
-            [
-                'post' => BlogPost::with('comments')->FindOrFail($id),
-            ]
-        );
+        $blogPost = Cache::remember("blog-post-{$id}", 60, function () use ($id) {
+            return BlogPost::with('comments')->findOrFail($id);
+        });
+
+        return view('posts.show', [
+            'post' => $blogPost,
+        ]);
     }
 
     public function create()
