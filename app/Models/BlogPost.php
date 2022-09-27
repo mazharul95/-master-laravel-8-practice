@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Scopes\DeletedAdminScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Scopes\DeletedAdminScope;
 use Illuminate\Support\Facades\Cache;
 
 class BlogPost extends Model

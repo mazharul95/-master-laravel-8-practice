@@ -31,7 +31,6 @@
                             @endforeach
                         @endslot
                     @endcard
-
                 </div>
 
                 <div class="row mt-4">

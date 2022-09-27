@@ -25,7 +25,7 @@ class PostsController extends Controller
 
     public function index()
     {
-        $mostCommented = Cache::remember('mostCommented', 60, function () {
+        $mostCommented = Cache::tags(['blog-post'])->remember('mostCommented', 60, function () {
             return BlogPost::mostCommented()->take(5)->get();
         });
 
@@ -55,12 +55,47 @@ class PostsController extends Controller
         //     }])->findOrFail($id),
         // ]);
 
-        $blogPost = Cache::remember("blog-post-{$id}", 60, function () use ($id) {
+        $blogPost = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 60, function () use ($id) {
             return BlogPost::with('comments')->findOrFail($id);
         });
 
+        $sessionId = session()->getId();
+        $counterKey = "blog-post-{$id}-counter";
+        $usersKey = "blog-post-{$id}-users";
+
+        $users = Cache::tags(['blog-post'])->get($usersKey, []);
+        $usersUpdate = [];
+        $diffrence = 0;
+        $now = now();
+
+        foreach ($users as $session => $lastVisit) {
+            if ($now->diffInMinutes($lastVisit) >= 1) {
+                $diffrence--;
+            } else {
+                $usersUpdate[$session] = $lastVisit;
+            }
+        }
+
+        if (!array_key_exists($sessionId, $users)
+            || $now->diffInMinutes($lastVisit) >= 1
+        ) {
+            $diffrence++;
+        }
+
+        $usersUpdate[$sessionId] = $now;
+        Cache::tags(['blog-post'])->forever($usersKey, $usersUpdate);
+
+        if (Cache::tags(['blog-post'])->has($counterKey)) {
+            Cache::tags(['blog-post'])->forever($counterKey, 1);
+        } else {
+            Cache::tags(['blog-post'])->increment($counterKey, $diffrence);
+        }
+
+        $counter = Cache::tags(['blog-post'])->get($counterKey);
+
         return view('posts.show', [
             'post' => $blogPost,
+            'counter' => $counter,
         ]);
     }
 
@@ -86,7 +121,6 @@ class PostsController extends Controller
     {
         $post = BlogPost::FindOrFail($id);
         $this->authorize($post);
-
         return view('posts.edit', ['post' => $post]);
     }
 

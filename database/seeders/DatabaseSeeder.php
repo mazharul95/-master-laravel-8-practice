@@ -4,6 +4,7 @@ use App\Models\BlogPost;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,8 @@ class DatabaseSeeder extends Seeder
 
         $users = $else->concat([$doe]);
 
+        Cache::tags(['blog-post'])->flush();
+
         $posts = BlogPost::factory(20)->make()->each(function ($post) use ($users) {
             $post->user_id = $users->random()->id;
             $post->save();
@@ -29,5 +32,11 @@ class DatabaseSeeder extends Seeder
             $comment->blog_post_id = $posts->random()->id;
             $comment->save();
         });
+
+        $this->call([
+            UsersTableSeeder::class,
+            BlogPostsTableSeeder::class,
+            CommentsTableSeeder::class,
+        ]);
     }
 }
